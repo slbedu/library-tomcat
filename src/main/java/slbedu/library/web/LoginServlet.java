@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static slbedu.library.utils.EntityManagerProvider.getEntityManager;
+
 /**
  * @author Ivan St. Ivanov
  */
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("library-persistence-unit");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
 
-        UserDAO userDAO = new UserDAO(emf.createEntityManager());
+        UserDAO userDAO = new UserDAO(getEntityManager());
 
         if (userDAO.validateUserCredentials(userName, password)) {
             req.getSession().setAttribute("currentUser", userName);
