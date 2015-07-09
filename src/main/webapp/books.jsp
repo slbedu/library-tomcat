@@ -17,6 +17,7 @@
             <th>Author</th>
             <th>ISBN</th>
             <th>Amount</th>
+            <th>Action</th>
         </tr>
         <jsp:useBean id="allBooks" scope="request" type="java.util.List"/>
         <c:forEach items="${allBooks}" var="book">
@@ -25,6 +26,11 @@
                 <td><c:out value="${book.author}"/></td>
                 <td><c:out value="${book.isbn}"/></td>
                 <td><c:out value="${book.amount}"/></td>
+                <td>
+                    <c:if test="${(!empty sessionScope.currentUser) && (book.amount > 0)}">
+                        <a href="borrow?bookId=${book.id}">Borrow</a>
+                    </c:if>
+                </td>
             </tr>
         </c:forEach>
     </table>
